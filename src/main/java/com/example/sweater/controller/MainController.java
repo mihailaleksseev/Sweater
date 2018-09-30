@@ -1,4 +1,4 @@
-package com.example.sweater;
+package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.repos.MessageRepo;
@@ -12,21 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     private MessageRepo messageRepo;
 
-    @GetMapping("/greeting")
-    public String greeting(
-            @RequestParam(name="name", required=false, defaultValue=" i`m alive") String name,
-            Map<String, String> model
-    ) {
-        model.put("name", name);
+    @GetMapping("/")
+    public String greeting(Map<String, String> model) {
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);
@@ -34,7 +30,7 @@ public class GreetingController {
     }
 
     // Анотация @RequestParam выдеригиавет из запросов или из формы значение
-    @PostMapping
+    @PostMapping("main")
     public String add(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
 
         //Сохранили
@@ -50,7 +46,7 @@ public class GreetingController {
 
     //Параметр filter взят из action на форме
     @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model) {
+    public String filter(@RequestParam(defaultValue="") String filter, Map<String, Object> model) {
         Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty()) {
