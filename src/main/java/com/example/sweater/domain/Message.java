@@ -1,9 +1,6 @@
 package com.example.sweater.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 @Entity
 //Entity показывает что это сущность, которую необходимо сохранять в бд
@@ -16,21 +13,32 @@ public class Message {
     private String text;
     private String tag;
 
+    //ManyToOne показывает базе, что одному пользователю соответствует множетсво сообщений
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
     //Создаем пустой класс, как бы объявляя конструктов, необходимо делать только в @Entity
     public Message(){
 
     }
 
     //Создаем конструктор
-    public Message(String text, String tag) {
+    public Message(String text, String tag, User user) {
+        author = user;
         this.text = text;
         this.tag = tag;
     }
 
-    //Геттеры и сеттеры можно сгенерировать автоматически нажав alt+ins
-    public Integer getId() {
-        return id;
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
     }
+    //Геттеры и сеттеры можно сгенерировать автоматически нажав alt+ins
+    public User getAuthor() { return author; }
+
+    public void setAuthor(User author) { this.author = author; }
+
+    public Integer getId() { return id; }
 
     public void setId(Integer id) {
         this.id = id;
