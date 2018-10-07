@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     //Разрешаем доступ только к главной
-                    .antMatchers("/", "/registration").permitAll()
+                    .antMatchers("/", "/registration", "/static/**").permitAll()
                     //Для остальных требуем авторизацию
                     .anyRequest().authenticated()
                 .and()

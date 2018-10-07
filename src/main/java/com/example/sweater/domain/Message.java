@@ -18,6 +18,8 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User author;
 
+    private String filename;
+
     //Создаем пустой класс, как бы объявляя конструктов, необходимо делать только в @Entity
     public Message(){
 
@@ -33,7 +35,13 @@ public class Message {
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
-    //Геттеры и сеттеры можно сгенерировать автоматически нажав alt+ins
+
+    //Геттеры и сеттеры можно сгенерировать автоматически нажав alt+ins или
+    // cmd+N
+    public String getFilename() { return filename; }
+
+    public void setFilename(String filename) { this.filename = filename; }
+
     public User getAuthor() { return author; }
 
     public void setAuthor(User author) { this.author = author; }
